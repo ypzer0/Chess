@@ -10,19 +10,11 @@ import javax.swing.JLabel;
  */
 public class BackgroundEntity extends CommonEntity{
     public BackgroundEntity(){
-        this.chessImgPath = CommonConstant.CHESS_IMAGE_PATH+"bg.png";
-        this.coordinateX = 50;
-        this.coordinateY = 0;
-        this.imgWeight = 800;
-        this.imgHeight = 600;
+        super();
+        setIcon(new ImageIcon(CommonConstant.CHESS_IMAGE_PATH+"bg.png"));
+        setBounds(CommonConstant.originLocationX+4,
+                CommonConstant.originLocationY - 10,800,600);
     }
 
-    @Override
-    public JLabel getLabel() {
-        ImageIcon icon=new ImageIcon(this.chessImgPath);
-        JLabel label=new JLabel(icon);
-        label.setBounds(coordinateX,
-                coordinateY,imgWeight,imgHeight);
-        return label;
-    }
+
 }

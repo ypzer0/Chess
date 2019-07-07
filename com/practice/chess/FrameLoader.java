@@ -2,8 +2,10 @@ package com.practice.chess;
 
 
 import com.practice.entity.BackgroundEntity;
-import com.practice.entity.ChessRedChe;
+import com.practice.entity.CommonEntity;
+import com.practice.entity.RedCheOne;
 import com.practice.constant.ChessFramePosition;
+import com.practice.entity.SelectedChess;
 import com.practice.location.CheRouting;
 import com.practice.location.LocationUtil;
 import com.practice.location.PieceRouting;
@@ -26,6 +28,8 @@ public class FrameLoader {
     private JPanel panel;
 
     private JLabel selectedChessLabel;
+
+    private JLabel selectedIcon = new SelectedChess();
 
     private PieceRouting pieceRouting = new PieceRouting();
 
@@ -52,20 +56,19 @@ public class FrameLoader {
      */
     public void addBackground() {
         BackgroundEntity backgroundEntity = new BackgroundEntity();
-        JLabel label = backgroundEntity.getLabel();
-        panel.add(label);
-        panel.setBounds(backgroundEntity.getCoordinateX(),
-                backgroundEntity.getCoordinateY(),
-                backgroundEntity.getImgWeight(),
-                backgroundEntity.getImgHeight());
-        frame.add(panel);
+        panel.add(backgroundEntity);
+        panel.setBounds(backgroundEntity.getX(),
+                backgroundEntity.getY(),
+                backgroundEntity.getWidth(),
+                backgroundEntity.getHeight());
     }
 
     public void  testRedChe(){
-        ChessRedChe chessRedChe = new ChessRedChe();
-        JLabel redCheLabel =chessRedChe.getLabel();
-        setSelectedListener(redCheLabel);
-        panel.add(redCheLabel);
+        RedCheOne redCheOne =new RedCheOne();
+        setSelectedListener(redCheOne);
+        selectedIcon.setVisible(false);
+        panel.add(selectedIcon);
+        panel.add(redCheOne);
         panel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -79,6 +82,7 @@ public class FrameLoader {
                     if(!pieceRouting.judgeLegal(location)){
                         return;
                     }
+                    selectedIcon.setVisible(false);
                     selectedChessLabel.setLocation(xLocation,yLocation);
                 }
                 selectedChessLabel=null;
@@ -108,21 +112,23 @@ public class FrameLoader {
 
     /**
      * 每个棋子都有被选中的公共方法
-     * @param label
+     * @param entity
      */
-    private void setSelectedListener(JLabel label){
-        label.addMouseListener(new MouseListener() {
+    private void setSelectedListener(CommonEntity entity){
+        entity.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(label==null){
+                if(entity==null){
                     return;
                 }
-                Integer xLocation = locationUtil.turnMouseXLocation(label.getX());
-                Integer yLocation = locationUtil.turnMouseYLocation(label.getY());
+                Integer xLocation = locationUtil.turnMouseXLocation(entity.getX());
+                Integer yLocation = locationUtil.turnMouseYLocation(entity.getY());
                 CheRouting cheRouting=new CheRouting(locationUtil);
                 List<Integer[]> ruleList = cheRouting.calculateRouting(xLocation, yLocation);
                 pieceRouting.setRuleList(ruleList);
-                selectedChessLabel=label;
+                selectedIcon.setLocation(entity.getX(),entity.getY());
+                selectedIcon.setVisible(true);
+                selectedChessLabel=entity;
             }
 
             @Override
@@ -148,6 +154,7 @@ public class FrameLoader {
     }
 
     public void start(){
+        frame.add(panel);
         frame.setVisible(true);
     }
 
