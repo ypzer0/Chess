@@ -12,15 +12,25 @@ import java.awt.event.MouseListener;
  */
 public class CommonEntity extends JLabel{
 
-    protected String chessImgPath;
+    private static final Integer IMG_WEIGHT = 55;
 
-    private static final Integer imgWeight = 55;
+    private static final Integer IMG_HEIGHT = 55;
+    /**
+     * 用于存储选取的棋子对象信息
+     */
+    private Integer[] selectedArray;
 
-    private static final Integer imgHeight = 55;
+    public Integer[] getSelectedArray() {
+        return selectedArray;
+    }
+
+    public void setSelectedArray(Integer[] selectedArray) {
+        this.selectedArray = selectedArray;
+    }
 
     public CommonEntity() {
         super();
-        setBounds(0,0,imgWeight,imgHeight);
+        setBounds(0,0,IMG_WEIGHT,IMG_HEIGHT);
     }
 
 }

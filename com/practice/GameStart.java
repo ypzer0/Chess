@@ -1,8 +1,6 @@
 package com.practice;
 
-import com.practice.chess.FrameLoader;
-
-import javax.swing.JFrame;
+import com.practice.chess.Controller;
 
 /**
  * @author 杨鹏
@@ -10,9 +8,10 @@ import javax.swing.JFrame;
 public class GameStart {
 
     public static void main(String[] args) {
-        FrameLoader frameLoader = new FrameLoader();
-        frameLoader.testRedChe();
-        frameLoader.addBackground();
-        frameLoader.start();
+        Controller controller = new Controller();
+        controller.initChess();
+        controller.initPanel();
+        controller.addBackground();
+        controller.start();
     }
 }
